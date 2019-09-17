@@ -1,0 +1,26 @@
+#**************************************************
+#* Copyright 2019, MapleLabs, All Rights Reserved.
+#*
+#**************************************************
+---
+- name: Restart configurator
+  become: true
+  systemd:
+    daemon_reload: true
+    name: configurator
+    state: restarted
+
+- name: Restart collectd
+  become: true
+  systemd:
+    daemon_reload: true
+    name: collectd
+    state: restarted
+
+- name: Restart td-agent
+  become: true
+  systemd:
+    daemon_reload: true
+    name: td-agent
+    state: restarted
+

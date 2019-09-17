@@ -1,0 +1,57 @@
+#**************************************************
+#* Copyright 2019, MapleLabs, All Rights Reserved.
+#*
+#**************************************************
+---
+- name: Get OS family
+  shell: cat /etc/*-release | grep -iw id | cut -d"=" -f2
+  register: os_family_cmd
+
+- set_fact:
+    os_family: "{{ os_family_cmd.stdout | trim }}"
+
+- name: install git on CentOS
+  yum:
+    name: git
+    state: present
+  become: yes
+  when: os_family == "centos"
+
+- name: install git on Ubuntu
+  apt:
+    name: git
+    state: present
+  become: yes
+  when: os_family == "ubuntu"
+
+- name: download agent installer repo from git
+  git:
+    repo: 'https://github.com/maplelabs/agent-installer-apm.git'
+    dest: /tmp/agent-installer-apm/
+
+#- name: copy uninstall-agent.py to /tmp
+#  copy:
+#     src: files/uninstall-agent.py
+#     dest: /tmp
+
+- name: checking service status
+  command: systemctl status "{{ item }}"
+  with_items:
+  - collectd
+  - configurator
+  - td-agent
+  register: result
+  ignore_errors: yes
+
+- name: showing report
+  debug:
+   var: result
+
+#- name: ensure that collectd is running
+  #service: name="collectd" state=started  enabled=yes
+  #register: collectd_status
+  #ignore_errors: True
+
+- name: Execute uninstall-agent.py
+  command: python /tmp/agent-installer-apm/uninstall-agent.py
+  when: result.results[0].stdout.find("running") != -1

@@ -1,0 +1,50 @@
+#**************************************************
+#* Copyright 2019, MapleLabs, All Rights Reserved.
+#*
+#**************************************************
+---
+
+- name: Check if td-agent is running
+  command: systemctl status td-agent
+  ignore_errors: yes
+  changed_when: false
+  register: service_td_agent_status
+
+- name: Report status of td-agent
+  fail:
+    msg: |
+      Service td-agent is not running.
+      Output of `systemctl status td-agent2`:
+      {{ service_td_agent_status.stdout }}
+      {{ service_td_agent_status.stderr }}
+  when: service_td_agent_status | failed
+
+- name: Check if collectd is running
+  command: systemctl status collectd
+  ignore_errors: yes
+  changed_when: false
+  register: service_collectd_status
+- name: Report status of collectd
+  fail:
+    msg: |
+      Service collectd is not running.
+      Output of `systemctl status collectd`:
+      {{ service_collectd_status.stdout }}
+      {{ service_collectd_status.stderr }}
+  when: service_collectd_status | failed
+
+- name: Check if configurator is running
+  command: systemctl status configurator
+  ignore_errors: yes
+  changed_when: false
+  register: service_configurator_status
+
+- name: Report status of configurator
+  fail:
+    msg: |
+      Service configurator is not running.
+      Output of `systemctl status configurator`:
+      {{ service_configurator_status.stdout }}
+      {{ service_configurator_status.stderr }}
+  when: service_configurator_status | failed
+
