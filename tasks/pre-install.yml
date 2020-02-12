@@ -26,7 +26,7 @@
 
 - name: download agent installer repo from git
   git:
-    repo: 'https://github.com/maplelabs/agent-installer-apm.git'
+    repo: 'https://github.com/maplelabs/agent-installer-apm-3.git'
     dest: /tmp/agent-installer-apm/
 
 #- name: copy uninstall-agent.py to /tmp
