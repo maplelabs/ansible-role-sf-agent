@@ -10,13 +10,13 @@
 #     dest: /tmp
 
 - debug:
-    msg: python /tmp/agent-installer-apm/install-agent.py -pi '{{ agent_args | to_json(indent=0) | regex_replace('\n','') }}'
+    msg: python /tmp/agent-installer-apm-3/install-agent.py -pi '{{ agent_args | to_json(indent=0) | regex_replace('\n','') }}'
   when: agent_args is defined
 
 - name: Execute install-agent.py with argument
-  command: python /tmp/agent-installer-apm/install-agent.py -pi '{{ agent_args | to_json(indent=0) | regex_replace('\n','') }}'
+  command: python /tmp/agent-installer-apm-3/install-agent.py -pi '{{ agent_args | to_json(indent=0) | regex_replace('\n','') }}'
   when: agent_args is defined
 
 - name: Execute install-agent.py without argument
-  command: python /tmp/agent-installer-apm/install-agent.py
+  command: python /tmp/agent-installer-apm-3/install-agent.py
   when: agent_args is not defined

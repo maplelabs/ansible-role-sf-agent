@@ -27,7 +27,7 @@
 - name: download agent installer repo from git
   git:
     repo: 'https://github.com/maplelabs/agent-installer-apm-3.git'
-    dest: /tmp/agent-installer-apm/
+    dest: /tmp/agent-installer-apm-3/
 
 #- name: copy uninstall-agent.py to /tmp
 #  copy:
@@ -53,5 +53,5 @@
   #ignore_errors: True
 
 - name: Execute uninstall-agent.py
-  command: python /tmp/agent-installer-apm/uninstall-agent.py
+  command: python /tmp/agent-installer-apm-3/uninstall-agent.py
   when: result.results[0].stdout.find("running") != -1
